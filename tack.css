@@ -1,0 +1,182 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+#root{
+  margin: auto;
+  border-style: ridge;
+  border-color: #333;
+  background-color: #333;
+  width: 1200px;
+  height: 515px;
+  overflow: auto;
+}
+.box {
+  margin: auto;
+  align-items: center;
+  text-align: center;
+  overflow: auto;
+}
+div.social-floater {
+    background-image: url("image/urlboxRight.png");
+    width: 58px;
+    height: 224px;
+    position: fixed;
+    right: 0px;
+    top: 25%;
+}
+div.social-floater-youtube {
+    position: absolute;
+    top: 7px;
+    left: 9px;
+}
+div.social-floater-twatter {
+    position: absolute;
+    top: 63px;
+    left: 9px;
+}
+div.social-floater-farcebook {
+    position: absolute;
+    top: 113px;
+    left: 9px;
+}
+div.social-floater-irc {
+    position: absolute;
+    top: 163px;
+    left: 10px;
+}
+.x{
+  border-style: ridge;
+  border-color: #333;
+}
+.topnav {
+  position: relative;
+  overflow: hidden;
+  background-color: #333;
+  top: 3px;
+}
+.topnav button {
+  float: left;
+  background-color: #ddd;
+  border: none;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.topnav button:hover {
+  background-color: #808000;
+  color: white;
+}
+.topnav button.active {
+  background-color: #808000;
+  color: white;
+}
+.o{
+  margin: auto;
+  border-style: ridge;
+  border-color: #333;
+  background-color:#333;
+  width: 750px;
+  height: 60px;
+  overflow: auto;
+}
+#a{
+  margin: 0;
+  position: relative;
+  border-style: ridge;
+  border-color: #808000;
+  float: right;
+  background-color: white;
+  width: 570px;
+  height: 500px;
+  top: 5px;
+  right: 5px;
+  overflow: auto;
+}
+#a2{
+  position: relative;
+  left: 125px;
+  top: 5px;
+}
+#a22{
+  position: relative;
+  top: 5px;
+  left: 125px;
+}
+.t {
+  text-align: center;
+}
+.c {
+  margin: 0;
+  position: relative;
+  text-align: center;
+}
+.b {
+  background-color: #808000;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+a:link#a3,a:visited#a3{
+  background-color: #808000;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+a:hover#a3, a:active#a3 {
+  background-color: #ddd;
+  color: black;
+}
+.e{
+  position: relative;
+  left : 100px;
+}
+.g{
+  position: relative;
+  top: 3px;
+  left: 10px;
+}
+.h{
+  margin: 0;
+  position: relative;
+  border-style: ridge;
+  border-color: #808000;
+  background-color: white;
+  left : 5px;
+  width: 570px;
+  height: 500px;
+  top: 5px;
+  right: 5px;
+}
+.lab{
+  background-color: #ddd;
+  color: black;
+  border-style: ridge;
+  border-color: #808000;
+}
+table{
+	border-collapse: collapse;
+}
+
+table tr td {
+	border: solid 1px #cdcdcd;
+}
+
+table tr td p {
+	margin: 0px;
+}
