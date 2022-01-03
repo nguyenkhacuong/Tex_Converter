@@ -94,7 +94,7 @@ function parseTex(tex) {
 			if (v[i].toLowerCase().indexOf("\\begin{ex}") == 0) {
 				state = 1;
 				s = v[i].substring("\\begin{ex}".length); // khoi tao H
-			} else if (v[i].toLowerCase() == "\\immini" || v[i].toLowerCase() == "\\immini {") {
+			} else if (v[i].toLowerCase() == "\\immini" || v[i].toLowerCase() == "\\immini {" || v[i].toLowerCase() == "\\impicinpar {") {
 				havePicture = true;
 			}
 		} else if (state == 1) { //H
@@ -283,7 +283,7 @@ function parseTex(tex) {
 			let tmp = new String(t2[i]);
 			t2[i] = new String(d[i]);
 			d[i] = tmp;
-		} else if (t3[i].indexOf("<p>\\True") == 0) {
+		} else if (t3[i].indexOf("<p>\\TRUE") == 0) {
 			let tmp = new String(t3[i]);
 			t3[i] = new String(d[i]);
 			d[i] = tmp;
