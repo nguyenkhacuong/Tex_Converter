@@ -12,7 +12,7 @@ function tex2jax(tex) {
 	let il = -1;
 	let ir = -1;
 	let len = s.length;
-
+// Chuyển $ thành \(\)
 	while(true) {
 		il = s.indexOf("$");
 		if (il < 0 || il == len-1) break;
@@ -34,12 +34,12 @@ function tex2jax(tex) {
 }
 
 function tex2html(tex) {
-	let ls = "";
-	let cs = "";
-	let rs = "";
+	let ls = ""; // left string
+	let cs = ""; // center string
+	let rs = ""; // right string
 	
-	let il = tex.indexOf("\\begin{tikzpicture}");
-	let ir = tex.indexOf("\\end{tikzpicture}");
+	let il = tex.indexOf("\\begin{tikzpicture}"); // image left
+	let ir = tex.indexOf("\\end{tikzpicture}");  // image right
 
 	if (il > 0 && ir > 0 && il < ir) {
 		ls = tex.substring(0, il);
@@ -61,12 +61,12 @@ function tex2html(tex) {
 //
 function parseTex(tex) {
 	//
-	//
+	//// Tách các xuống dòng thành các chuỗi text
 	//
 	let v = new String(tex).split(/\r\n|\r|\n/g);
 
 	//
-	//
+	//// Xoá các comment, xoá các space thừa ở giữa, xoá indent và space ở đầu và cuối
 	//
 	for (let i = 0; i < v.length; i++) {
 		v[i] = v[i].replace(/%.*$/g, "").replace(/\s\s*/g, " ").trim();
@@ -76,26 +76,30 @@ function parseTex(tex) {
 	//
 	//
 	//
-	let h = [];
-	let p = [];
-	let d = [];
-	let t1 = [];
-	let t2 = [];
-	let t3 = [];
-	let g = [];
-	let noq = -1;
-	let reserved = false;
+	let h = []; // Hỏi
+	let p = []; // Hình ve
+	let d = []; // Đáp án đúng
+	let t1 = [];// Trộn 1
+	let t2 = [];// Trộn 2
+	let t3 = [];// Trộn 3
+	let g = []; // Lời giải
+	let noq = -1; // No of questions
+	let reserved = false; 
 	let reserved1 = false;
 
-
+// duyệt từng chuỗi, nếu state = 0 thì là chưa bắt đầu câu hỏi
+	// state = 1 thì là \begin{ex}
+	// state = 2 thì là \choice
 	let state = 0;
+	// Chuỗi để lưu string đang xử lý
 	let s = "";
 
 	for (let i = 0; i < v.length; i++) {
 		//
-		//
+		// check xem có phải picture ko?
 		//
 		if (v[i].indexOf("\\begin{tikzpicture}") >= 0) reserved = true;
+		// check xem có \immini không?
 
 		if (v[i].indexOf("\\immini{") >= 0) reserved1 = true;
 
