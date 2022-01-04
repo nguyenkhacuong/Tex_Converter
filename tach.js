@@ -275,6 +275,7 @@ function parseTex(tex) {
 	for (let i = 0; i < noq; i++) {
 		//
 		//
+		let ccc = 0;
 		// Dua dap an len dau
 
 		if (d[i].indexOf("<p>\\True") == 0) {
@@ -293,7 +294,9 @@ function parseTex(tex) {
 		}
 		d[i] = d[i].replace(/^<p>\\True/, "<p>");
 		tex2html(h[i]);
-		if ( reserved1) {h[i] = h[i].substring(11,h[i].length);} 
+		if ( h[i].indexOf("\\immini{") == 3) {
+					h[i] = h[i].substring(11,h[i].length);
+					ccc = 1;} 
 		//
 		//
 		// tạo HTML
@@ -305,7 +308,7 @@ function parseTex(tex) {
 		html += "<td>H</td>";
 		html += "<td><div class='flex_container'>";
 		html += "<div class='flex_item'>"+h[i]+"</div>";
-		if (p[i].length > 0) {
+		if (ccc == 1) {
 			html += "<div class='flex_item picture'><p>"+p[i]+"</p></div>";
 		}
 		html += "</div></td>";
