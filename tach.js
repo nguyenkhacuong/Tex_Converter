@@ -1,6 +1,6 @@
 var currentTime = new Date().getHours();
 if (document.body) {
-  if (7 <= currentTime && currentTime < 20) {
+  if (8 <= currentTime && currentTime < 23) {
     document.body.background = "image/background.jpg";
   }
   else {
@@ -13,7 +13,6 @@ function tex2jax(tex) {
 	let ir = -1;
 	let len = s.length;
 
-	// Chuyển $ thành \(\)
 	while(true) {
 		il = s.indexOf("$");
 		if (il < 0 || il == len-1) break;
@@ -35,12 +34,12 @@ function tex2jax(tex) {
 }
 
 function tex2html(tex) {
-	let ls = ""; // left string
-	let cs = ""; // center string
-	let rs = ""; // right string
+	let ls = "";
+	let cs = "";
+	let rs = "";
 	
-	let il = tex.indexOf("\\begin{tikzpicture}"); // image left
-	let ir = tex.indexOf("\\end{tikzpicture}"); // image right
+	let il = tex.indexOf("\\begin{tikzpicture}");
+	let ir = tex.indexOf("\\end{tikzpicture}");
 
 	if (il > 0 && ir > 0 && il < ir) {
 		ls = tex.substring(0, il);
@@ -56,46 +55,57 @@ function tex2html(tex) {
 	return (ls + cs + rs);
 }
 
+
+//
+//
+//
 function parseTex(tex) {
-	// Tách các xuống dòng thành các chuỗi text
+	//
+	//
+	//
 	let v = new String(tex).split(/\r\n|\r|\n/g);
 
-	// Xoá các comment, xoá các space thừa ở giữa, xoá indent và space ở đầu và cuối
+	//
+	//
+	//
 	for (let i = 0; i < v.length; i++) {
 		v[i] = v[i].replace(/%.*$/g, "").replace(/\s\s*/g, " ").trim();
 	}
     
-	let h = []; // Hỏi
-	let p = []; // Hình vẽ 
-	let d = []; // Đúng
-	let t1 = []; // Trả lời 1
-	let t2 = []; // Trả lời 2
-	let t3 = []; // Trả lời 3
-	let g = []; // Giải
-	let noq = -1; // No of questions
-	let reserved = false; // ?
-	let havePicture = false;
 
-	// duyệt từng chuỗi, nếu state = 0 thì là chưa bắt đầu câu hỏi
-	// state = 1 thì là \begin{ex}
-	// state = 2 thì là \choice
+	//
+	//
+	//
+	let h = [];
+	let p = [];
+	let d = [];
+	let t1 = [];
+	let t2 = [];
+	let t3 = [];
+	let g = [];
+	let noq = -1;
+	let reserved = false;
+	let reserved1 = false;
+
+
 	let state = 0;
+	let s = "";
 
-	// Chuỗi để lưu string đang xử lý
-	let s = ""; // ?
-
-	// Duyệt từng đoạn tex
 	for (let i = 0; i < v.length; i++) {
-		// check xem có phải picture ko?
+		//
+		//
+		//
 		if (v[i].indexOf("\\begin{tikzpicture}") >= 0) reserved = true;
-		
-		// 
+
+		if (v[i].indexOf("\\immini{") >= 0) reserved1 = true;
+
+		//
+		//
+		//
 		if (state == 0) { // chua bat dau cau hoi
 			if (v[i].toLowerCase().indexOf("\\begin{ex}") == 0) {
 				state = 1;
 				s = v[i].substring("\\begin{ex}".length); // khoi tao H
-			} else if (v[i].toLowerCase() == "\\immini" || v[i].toLowerCase() == "\\immini {") {
-				havePicture = true;
 			}
 		} else if (state == 1) { //H
 			if (v[i].toLowerCase().indexOf("\\choice") == 0) {
@@ -105,7 +115,6 @@ function parseTex(tex) {
 				//
 				noq++;
 				h.push(new String(s));
-				p.push("");
 				d.push("");
 				t1.push("");
 				t2.push("");
@@ -226,7 +235,8 @@ function parseTex(tex) {
 				s = s.replace(/\\loigiai\s*{/,"\\solution{");
 				let vv = s.split("\\solution");
 				if (vv.length == 2) {
-					h[noq] += vv[0];
+					p[noq] += vv[0];
+					p[noq] = p[noq].substring(12, vv[0].length+4);
 					s = vv[1];
 				} else {
 					s = s.replace(/\\solution/,"");
@@ -236,8 +246,8 @@ function parseTex(tex) {
 				s = "<p>" + s + "</p>";
 				g[noq] = new String(s);
 				//
+				state = 0;
 				s = "";
-                state = 7;
 			} else {		
 				if (v[i] == "") {
 					if (reserved) s += "<br>";
@@ -246,18 +256,6 @@ function parseTex(tex) {
 					s += v[i];
 					if (reserved) s += "<br>";
 				}
-			}
-		} else if (state == 7) { // P
-			if (havePicture) {
-				if (v[i] === '\\end{tikzpicture}') {
-					p[noq] += v[i];
-					havePicture = false;
-					state = 0;
-				} else if (v[i] !== '}{' && v[i] !== '{' && v[i] !== '}') {
-					p[noq] += v[i] + '<br/>';
-				}
-			} else {
-				state = 0;
 			}
 		}
 
@@ -274,6 +272,7 @@ function parseTex(tex) {
 		//
 		//
 		// Dua dap an len dau
+
 		if (d[i].indexOf("<p>\\True") == 0) {
 		} else if (t1[i].indexOf("<p>\\True") == 0) {
 			let tmp = new String(t1[i]);
@@ -289,8 +288,8 @@ function parseTex(tex) {
 			d[i] = tmp;
 		}
 		d[i] = d[i].replace(/^<p>\\True/, "<p>");
-
-
+		tex2html(h[i]);
+		if ( reserved1) {h[i] = h[i].substring(11,h[i].length);} 
 		//
 		//
 		// tạo HTML
